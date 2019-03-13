@@ -13,50 +13,37 @@ class RandomListNode {
 
 class Solution25 {
 
-    public RandomListNode Clone(RandomListNode head) {
-        if (head == null) {
+    public RandomListNode Clone(RandomListNode pHead) {
+        if (pHead == null)
             return null;
+        //插入新结点
+        RandomListNode cur = pHead;
+        while (cur != null) {
+            RandomListNode clone = new RandomListNode(cur.label);
+            clone.next = cur.next;
+            cur.next = clone;
+            cur = clone.next;
         }
-        cloneNodes(head);//复制节点
-        connectNodes(head);//链接random字段
-        return reconnectNodes(head);//将整个链表拆分，返回复制链表的头结点
-    }
-
-    private void connectNodes(RandomListNode head) {
-        while (head != null) {
-            if (head.random != null) {
-                head.next.random = head.random.next;
+        //建立random连接
+        cur = pHead;
+        while (cur != null) {
+            RandomListNode clone = cur.next;
+            if (cur.random != null) {
+                clone.random = cur.random.next;
             }
-            head = head.next.next;
+            cur = clone.next;
         }
+        //拆分
+        cur = pHead;
+        RandomListNode pCloneHead = pHead.next;
+        while (cur.next != null) {
+            RandomListNode next = cur.next;
+            cur.next = next.next;
+            cur = next;
+        }
+        return pCloneHead;
     }
 
-    private void cloneNodes(RandomListNode head) {
-        while (head != null) {
-            RandomListNode tmp = new RandomListNode(-1);
-            tmp.label = head.label;
-            tmp.next = head.next;
-            head.next = tmp;
-            head = tmp.next;
-        }
-    }
-
-    private RandomListNode reconnectNodes(RandomListNode head) {
-        if (head == null)
-            return null;
-        
-        RandomListNode newHead = head.next;
-        RandomListNode pointer = newHead;
-        head.next = newHead.next;
-        head = head.next;
-        while (head != null) {
-            pointer.next = head.next;
-            pointer = pointer.next;
-            head.next = pointer.next;
-            head = pointer.next;
-        }
-        return newHead;
-    }
 }
 
 public class Test25复杂链表的复制 {
