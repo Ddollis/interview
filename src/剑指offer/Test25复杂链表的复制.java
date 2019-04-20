@@ -66,6 +66,8 @@ public class Test25复杂链表的复制 {
         RandomListNode newHead = new Solution25().Clone(head);
         printList(newHead);
         System.out.println(isSame(head, tmp));
+        StringBuffer sb=new StringBuffer();
+        StringBuffer append = sb.append("aaa").append(1).append("true");
 
     }
 
@@ -88,4 +90,6 @@ public class Test25复杂链表的复制 {
         }
         System.out.println("null");
     }
+
+
 }
